@@ -86,7 +86,7 @@ static STRLEN matching_delimiter(pTHX_ I32 delim, char *ender) {
  */
 static OP* make_op(pTHX) {
   SV *str = newSVpvn("", 0);
-  I32 delim, catflags;
+  I32 delim;
   char ender[UTF8_MAXBYTES + 1];
   STRLEN ender_len;
   char *end;
@@ -99,13 +99,15 @@ static OP* make_op(pTHX) {
   /* And compute the matching close delimiter */
   ender_len = matching_delimiter(aTHX_ delim, ender);
 
-  /* This is the equivalent of the UTF8 flag for linestr. Append accordingly. */
-  catflags = lex_bufutf8() ? SV_CATUTF8 : SV_CATBYTES;
+  /* This is the equivalent of the UTF8 flag for linestr. Set it accordingly on the output. */
+  if (lex_bufutf8()) {
+    SvUTF8_on(str);
+  }
 
   /* If we reach the end of linestr without finding the close delimiter... */
   while ((end = memmem(PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, ender, ender_len)) == NULL) {
     /* Concatenate what we have before it goes away, */
-    sv_catpvn_flags(str, PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, catflags);
+    sv_catpvn(str, PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr);
     /* Tell the lexer that we consumed everything (rumor says that lex_next_chunk
      * doesn't always behave reliably otherwise),
      */
@@ -119,7 +121,7 @@ static OP* make_op(pTHX) {
   /* 'end' now points to the beginning of the close delimiter. Copy
    * everything up to there into str
    */
-  sv_catpvn_flags(str, PL_parser->bufptr, end - PL_parser->bufptr, catflags);
+  sv_catpvn(str, PL_parser->bufptr, end - PL_parser->bufptr);
   /* Consume the input plus the closing delimiter */
   lex_read_to(end + ender_len);
   /* And finally make the OP_CONST and return it. */
