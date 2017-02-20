@@ -28,13 +28,14 @@
    "provides" : {
       "Syntax::Feature::RawQuote" : {
          "file" : "lib/Syntax/Feature/RawQuote.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       },
       "Syntax::Keyword::RawQuote" : {
          "file" : "lib/Syntax/Keyword/RawQuote.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
-   "version" : "0.01"
+   "version" : "0.02",
+   "x_serialization_backend" : "JSON::PP version 2.27300_01"
 }
