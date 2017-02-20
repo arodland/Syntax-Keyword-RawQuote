@@ -4,7 +4,7 @@ use warnings;
 use Test::More;
 use utf8;
 
-use_ok 'Syntax::Keyword::RawQuote';
+require_ok 'Syntax::Keyword::RawQuote';
 
 my @library = (
   <<'EOEXAMPLE',
