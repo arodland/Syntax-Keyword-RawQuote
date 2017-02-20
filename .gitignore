@@ -2,3 +2,4 @@ blib
 temp
 _build_params
 Build
+MYMETA.*
