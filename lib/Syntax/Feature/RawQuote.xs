@@ -12,39 +12,47 @@
 
 static int enabled(pTHX_ const char *kw_ptr, STRLEN kw_len) {
   HV *hints;
-  SV *sv, **psv;
+  SV **psv;
   char *p, *pv;
   STRLEN pv_len;
 
 
-  // No hints in effect
+  /* No hints in effect */
   if (!(hints = GvHV(PL_hintgv))) {
     return 0;
   }
 
-  // No keywords in effect
+  /* No keywords in effect */
   if (!(psv = hv_fetchs(hints, HINTK_KEYWORDS, 0))) {
     return 0;
   }
 
-  sv = *psv;
+  pv = SvPV(*psv, pv_len);
 
-  pv = SvPV(sv, pv_len);
-  
+  /* Copied, with modifications, from mauke's Keyword::Simple.
+   * Match ,keyword($|,) in pv. The Perl layer provides a , even
+   * before the first value.
+   */
   for (p = pv;
-      (p = strchr(p + 1, *kw_ptr)) &&
-      p <= pv + pv_len - kw_len;
-      ) {
-    if (p[-1] == ',' &&
-        ((p + kw_len == pv + pv_len) || p[kw_len] == ',') &&
-        memcmp(kw_ptr, p, kw_len) == 0
-       ) {
+    (p = strchr(p + 1, *kw_ptr)) &&
+    p <= pv + pv_len - kw_len;
+  ) {
+    if (
+      (p[-1] == ',')
+      && ((p + kw_len == pv + pv_len) || (p[kw_len] == ','))
+      && (memcmp(kw_ptr, p, kw_len) == 0)
+    ) {
       return 1;
     }
   }
   return 0;
 }
 
+/* Populate ender with the matching delimiter for delim (which is
+ * a unichar) and return its length. As for quote-like operators,
+ * [] {} <> and () are recognized as matching pairs, and other
+ * characters match themselves.
+ */
 static STRLEN matching_delimiter(pTHX_ I32 delim, char *ender) {
   char *p;
 
@@ -67,29 +75,54 @@ static STRLEN matching_delimiter(pTHX_ I32 delim, char *ender) {
   }
 }
 
+/* The keyword has been recognized. What follows is the raw-quoted
+ * string itself. Parse it (leaving the parser after the string) and return
+ * an OP_CONST containing the string contents. Delimiters are handled the
+ * same as quote-like operators, with the opening delimiter being the first
+ * non-whitespace character after the keyword, and the closing delimiter being
+ * the matching character if it's an ASCII bracket, or the same as the opening
+ * delimiter otherwise. Unlike the built-in quote-likes, there is no backslashing.
+ * The first occurrence of the closing delimiter ends the string.
+ */
 static OP* make_op(pTHX) {
   SV *str = newSVpvn("", 0);
   I32 delim, catflags;
-  char ender[UTF8_MAXBYTES];
+  char ender[UTF8_MAXBYTES + 1];
   STRLEN ender_len;
   char *end;
 
+  /* Discard whitespace */
   lex_read_space(0);
+
+  /* Get the opening delimiter as a unichar */
   delim = lex_read_unichar(0);
+  /* And compute the matching close delimiter */
   ender_len = matching_delimiter(aTHX_ delim, ender);
 
+  /* This is the equivalent of the UTF8 flag for linestr. Append accordingly. */
   catflags = lex_bufutf8() ? SV_CATUTF8 : SV_CATBYTES;
 
+  /* If we reach the end of linestr without finding the close delimiter... */
   while ((end = memmem(PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, ender, ender_len)) == NULL) {
+    /* Concatenate what we have before it goes away, */
     sv_catpvn_flags(str, PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, catflags);
+    /* Tell the lexer that we consumed everything (rumor says that lex_next_chunk
+     * doesn't always behave reliably otherwise),
+     */
     lex_read_to(PL_parser->bufend);
+    /* Read more input, */
     if (!lex_next_chunk(0)) {
-      croak("no delimiter before EOF");
+      /* And complain if we got to EOF without finding the close delimiter */
+      croak("Can't find string terminator %.*s anywhere before EOF", (int)ender_len, ender);
     }
   }
+  /* 'end' now points to the beginning of the close delimiter. Copy
+   * everything up to there into str
+   */
   sv_catpvn_flags(str, PL_parser->bufptr, end - PL_parser->bufptr, catflags);
+  /* Consume the input plus the closing delimiter */
   lex_read_to(end + ender_len);
-
+  /* And finally make the OP_CONST and return it. */
   return newSVOP(OP_CONST, 0, str);
 }
 
