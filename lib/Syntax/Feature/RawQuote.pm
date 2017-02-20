@@ -5,6 +5,7 @@ use Syntax::Keyword::RawQuote ();
 
 BEGIN {
   our $VERSION = '0.01';
+  our $AUTHORITY = 'cpan:ARODLAND';
 }
 
 sub install {
