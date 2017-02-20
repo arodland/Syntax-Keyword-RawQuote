@@ -33,6 +33,8 @@ Syntax::Feature::RawQuote - A raw quote operator for Perl ('use syntax' flavor)
     use syntax raw_quote => { -as => "qraw" };
     say qraw[Maybe the \r\ keyword is too risky?];
 
+=head1 DESCRIPTION
+
 This library provides an interface to L<Syntax::Keyword::RawQuote> for the
 L<syntax> module. You may also see L<Syntax::Keyword::RawQuote> directly. See
 that module for more information.

@@ -44,6 +44,8 @@ Syntax::Keyword::RawQuote - A raw quote operator for Perl
     use Syntax::Keyword::RawQuote -as => "qraw";
     say qraw[Maybe the \r\ keyword is too risky?];
 
+=head1 DESCRIPTION
+
 This library provides an absolutely uninterpreted (raw) quote operator for
 Perl, as seen in some other programming languages. While Perl single-quoted
 strings are nearly uninterpreted, they still treat the sequences C<\'> and
