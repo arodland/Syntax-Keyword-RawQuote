@@ -64,7 +64,7 @@ L<perlop/Quote and Quote-like Operators>). The first non-whitespace character
 after the operator is taken as the opening delimiter. If the opening
 delimiter is one of the ASCII left bracket characters (one of C<< ( [ < { >>),
 then the closing delimiter is the matching right bracket (from
-C<< ) ]] > } >>, otherwise it is the same as the opening delimiter. This
+C<< ) ] > } >>), otherwise it is the same as the opening delimiter. This
 choice of delimiters allows you to choose a character that won't appear
 inside the string.
 
