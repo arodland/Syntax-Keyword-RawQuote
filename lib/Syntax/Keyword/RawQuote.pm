@@ -1,19 +1,27 @@
-package Syntax::Feature::RawQuote;
+package Syntax::Keyword::RawQuote;
 use strict;
 use warnings;
-use Syntax::Keyword::RawQuote ();
+use XSLoader;
 
 BEGIN {
   our $VERSION = '0.01';
+  XSLoader::load(__PACKAGE__);
 }
 
-sub install {
+sub import {
   my ($class, %args) = @_;
-  Syntax::Keyword::RawQuote->import(%{ $args{"options"} || {}})
+
+  my $keyword = $args{"-as"} || "r";
+  $^H{+HINTK_KEYWORDS} .= ",$keyword";
 }
 
 sub uninstall {
-  Syntax::Keyword::RawQuote->unimport();
+  my ($class, %args) = @_;
+  if ($args{"-as"}) {
+    $^H{+HINTK_KEYWORDS} =~ s/,\Q$args{"-as"}\E//;
+  } else {
+    $^H{+HINTK_KEYWORDS} = "";
+  }
 }
 
 1;

@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MY_PKG "Syntax::Feature::RawQuote"
+#define MY_PKG "Syntax::Keyword::RawQuote"
 #define HINTK_KEYWORDS MY_PKG "/keywords"
 
 static int enabled(pTHX_ const char *kw_ptr, STRLEN kw_len) {
@@ -137,7 +137,7 @@ static int my_keyword_plugin(pTHX_ char *kw_ptr, STRLEN kw_len, OP **op_ptr) {
   }
 }
 
-MODULE = Syntax::Feature::RawQuote   PACKAGE = Syntax::Feature::RawQuote
+MODULE = Syntax::Keyword::RawQuote   PACKAGE = Syntax::Keyword::RawQuote
 PROTOTYPES: ENABLE
 
 BOOT:
