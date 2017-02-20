@@ -1,7 +1,11 @@
+.swp
 Build.PL
 LICENSE
 MANIFEST
+MANIFEST.SKIP
 META.json
 META.yml
 lib/Syntax/Feature/RawQuote.pm
-lib/Syntax/Feature/RawQuote.xs
+lib/Syntax/Keyword/RawQuote.pm
+lib/Syntax/Keyword/RawQuote.xs
+t/01-basic.t

@@ -1,5 +1,5 @@
 ---
-abstract: 'do raw quotes'
+abstract: 'A raw quote operator for Perl'
 author:
   - 'Andrew Rodland <arodland@cpan.org>'
 build_requires: {}
@@ -11,9 +11,12 @@ license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: '1.4'
-name: Syntax-Feature-RawQuote
+name: Syntax-Keyword-RawQuote
 provides:
   Syntax::Feature::RawQuote:
     file: lib/Syntax/Feature/RawQuote.pm
+    version: '0.01'
+  Syntax::Keyword::RawQuote:
+    file: lib/Syntax/Keyword/RawQuote.pm
     version: '0.01'
 version: '0.01'
