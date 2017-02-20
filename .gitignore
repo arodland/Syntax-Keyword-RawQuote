@@ -5,3 +5,4 @@ Build
 MYMETA.*
 .sw?
 *.bak
+Syntax-Keyword-RawQuote-*
