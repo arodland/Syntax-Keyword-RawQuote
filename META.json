@@ -1,0 +1,36 @@
+{
+   "abstract" : "do raw quotes",
+   "author" : [
+      "Andrew Rodland <arodland@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "App::ModuleBuildTiny version 0.018",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Syntax-Feature-RawQuote",
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "Module::Build::Tiny" : "0.036"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "App::ModuleBuildTiny" : "0.018"
+         }
+      }
+   },
+   "provides" : {
+      "Syntax::Feature::RawQuote" : {
+         "file" : "lib/Syntax/Feature/RawQuote.pm",
+         "version" : "0.01"
+      }
+   },
+   "release_status" : "stable",
+   "version" : "0.01"
+}

@@ -1,0 +1,19 @@
+---
+abstract: 'do raw quotes'
+author:
+  - 'Andrew Rodland <arodland@cpan.org>'
+build_requires: {}
+configure_requires:
+  Module::Build::Tiny: '0.036'
+dynamic_config: 0
+generated_by: 'App::ModuleBuildTiny version 0.018, CPAN::Meta::Converter version 2.150001'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Syntax-Feature-RawQuote
+provides:
+  Syntax::Feature::RawQuote:
+    file: lib/Syntax/Feature/RawQuote.pm
+    version: '0.01'
+version: '0.01'

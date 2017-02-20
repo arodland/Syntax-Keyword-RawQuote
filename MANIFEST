@@ -1,0 +1,7 @@
+Build.PL
+LICENSE
+MANIFEST
+META.json
+META.yml
+lib/Syntax/Feature/RawQuote.pm
+lib/Syntax/Feature/RawQuote.xs
