@@ -55,6 +55,11 @@ backslashed, and treating C<\\> as a single backslash. A raw string, in
 contrast, treats I<every> character literally, and ends at the first
 occurrence of the closing delimiter, no matter what.
 
+=head1 WARNING
+
+This is beta software that mucks about with the perl internals. Do not use
+it for anything too important.
+
 =head1 SYNTAX
 
 By default, the raw quote operator will be installed as C<r> in the lexical

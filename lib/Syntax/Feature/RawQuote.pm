@@ -39,6 +39,11 @@ This library provides an interface to L<Syntax::Keyword::RawQuote> for the
 L<syntax> module. You may also see L<Syntax::Keyword::RawQuote> directly. See
 that module for more information.
 
+=head1 WARNING
+
+This is beta software that mucks about with the perl internals. Do not use
+it for anything too important.
+
 =head1 METHODS
 
 =head2 install
