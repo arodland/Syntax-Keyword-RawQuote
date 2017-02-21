@@ -16,12 +16,20 @@
    "prereqs" : {
       "configure" : {
          "requires" : {
-            "Module::Build::Tiny" : "0.036"
+            "Module::Build::Tiny" : "0.036",
+            "XSLoader" : "0",
+            "perl" : "5.012"
          }
       },
       "develop" : {
          "requires" : {
             "App::ModuleBuildTiny" : "0.018"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "XSLoader" : "0",
+            "perl" : "5.012"
          }
       }
    },

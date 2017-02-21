@@ -8,4 +8,5 @@ META.yml
 lib/Syntax/Feature/RawQuote.pm
 lib/Syntax/Keyword/RawQuote.pm
 lib/Syntax/Keyword/RawQuote.xs
+metamerge.json
 t/01-basic.t
