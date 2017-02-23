@@ -75,6 +75,20 @@ static STRLEN matching_delimiter(pTHX_ I32 delim, char *ender) {
   }
 }
 
+static const void *my_memmem(const void *haystack, size_t haystacklen,
+    const void *needle, size_t needlelen) {
+  const void *p;
+  for (p = haystack;
+    ((p = memchr(p, *((char *)needle), haystacklen - (p - haystack))) != NULL) &&
+    p + needlelen <= haystack + haystacklen;
+  ) {
+    if (memcmp(p, needle, needlelen) == 0) {
+      return p;
+    }
+  }
+  return NULL;
+}
+
 /* The keyword has been recognized. What follows is the raw-quoted
  * string itself. Parse it (leaving the parser after the string) and return
  * an OP_CONST containing the string contents. Delimiters are handled the
@@ -89,7 +103,7 @@ static OP* make_op(pTHX) {
   I32 delim;
   char ender[UTF8_MAXBYTES + 1];
   STRLEN ender_len;
-  char *end;
+  const char *end;
 
   /* Discard whitespace */
   lex_read_space(0);
@@ -105,7 +119,7 @@ static OP* make_op(pTHX) {
   }
 
   /* If we reach the end of linestr without finding the close delimiter... */
-  while ((end = memmem(PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, ender, ender_len)) == NULL) {
+  while ((end = my_memmem(PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr, ender, ender_len)) == NULL) {
     /* Concatenate what we have before it goes away, */
     sv_catpvn(str, PL_parser->bufptr, PL_parser->bufend - PL_parser->bufptr);
     /* Tell the lexer that we consumed everything (rumor says that lex_next_chunk
