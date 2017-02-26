@@ -4,8 +4,8 @@ use warnings;
 use Syntax::Keyword::RawQuote ();
 
 BEGIN {
-  our $VERSION = '0.03';
-  our $AUTHORITY = 'cpan:ARODLAND';
+  # VERSION
+  # AUTHORITY
 }
 
 sub install {
