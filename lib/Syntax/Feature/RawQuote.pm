@@ -31,7 +31,7 @@ Syntax::Feature::RawQuote - A raw quote operator for Perl ('use syntax' flavor)
     say r`I keep all of my files in \\yourserver\private`;
 
     use syntax raw_quote => { -as => "qraw" };
-    say qraw[Maybe the \r\ keyword is too risky?];
+    say qraw[Maybe the `r` keyword is too risky?];
 
 =head1 DESCRIPTION
 
