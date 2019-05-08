@@ -7,7 +7,7 @@ use warnings;
 use XSLoader;
 
 BEGIN {
-  our $VERSION = '0.03';
+  our $VERSION = '0.04';
   our $AUTHORITY = 'cpan:ARODLAND';
   XSLoader::load(__PACKAGE__);
 }
